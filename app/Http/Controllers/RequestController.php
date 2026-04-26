@@ -29,8 +29,6 @@ class RequestController extends Controller
         $student = Student::on($branch)->find($request->student_id);
 
         $adminBranch = $admin->branch->name;
-        print_r($adminBranch);
-        print_r($student->branch);
 
         if ($student->branch != $adminBranch)
             return response()->json([
