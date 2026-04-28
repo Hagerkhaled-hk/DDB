@@ -12,7 +12,7 @@ class AdminController extends Controller
 {
     public function login(LoginAdminRequest $request): JsonResponse
     {
-        $admin = Admin::where('email', $request->validated('email'))->first();
+        $admin = Admin::on($request->validated("branch"))->where('email', $request->validated('email'))->first();
 
         if (! $admin || ! Hash::check($request->validated('password'), $admin->password)) {
             throw ValidationException::withMessages([

@@ -11,7 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admins', function (Blueprint $table) {
+       /*  Schema::create('admins', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('branch_id')->constrained("branches")->onDelete('cascade');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->timestamps();
+        }); */
+        Schema::connection("branch_A")->create('admins', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('branch_id')->constrained("branches")->onDelete('cascade');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->timestamps();
+        });
+        Schema::connection("branch_B")->create('admins', function (Blueprint $table) {
             $table->id();
             $table->foreignId('branch_id')->constrained("branches")->onDelete('cascade');
             $table->string('name');
@@ -26,6 +42,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admins');
+         Schema::connection('branch_A')->dropIfExists('admins');
+         Schema::connection('branch_B')->dropIfExists('admins');
     }
 };

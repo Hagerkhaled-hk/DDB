@@ -11,7 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('branches', function (Blueprint $table) {
+        /* Schema::create('branches', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('location');
+            $table->timestamps();
+        }); */
+        Schema::connection("branch_A")->create('branches', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('location');
+            $table->timestamps();
+        });
+        Schema::connection("branch_B")->create('branches', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('location');
@@ -24,6 +36,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('branches');
+         Schema::connection('branch_A')->dropIfExists('branches');
+         Schema::connection('branch_B')->dropIfExists('branches');
     }
 };

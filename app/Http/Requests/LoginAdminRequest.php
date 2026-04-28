@@ -25,6 +25,7 @@ class LoginAdminRequest extends FormRequest
         return [
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
+            'branch' => ['required', 'in:branch_A,branch_B'],
         ];
     }
 }
