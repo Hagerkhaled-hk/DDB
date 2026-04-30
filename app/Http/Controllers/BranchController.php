@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BranchController extends Controller
 {
@@ -14,10 +15,16 @@ public function create(Request $request)
         "name"=>"required|string",
         "location"=>"required|string",
     ]);
+
+       DB::transaction(function () use ( $validated) {
+         Branch::on("branch_A")->create($validated);
+          Branch::on("branch_B")->create($validated);
+
+
+        });
     try
     {
 
-           Branch::create($validated);
 return response()->json([
     "success"=>true,
             "message"=>"created successfully"
@@ -36,7 +43,7 @@ public function show(Request $request)
 {
     try
     {
-        $branches = Branch::all(['id', 'name', 'location']);
+        $branches = Branch::on("branch_A")->get(['id', 'name', 'location']);
 return response()->json([
     "success"=>true,
             "message"=>"returned successfully",

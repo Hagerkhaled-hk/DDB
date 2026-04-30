@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\MultibranchAccessToken;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Sanctum\Sanctum;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,5 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        // Sanctum will now use YOUR findToken() for ALL auth:sanctum checks
+    Sanctum::usePersonalAccessTokenModel(MultibranchAccessToken::class);
     }
 }

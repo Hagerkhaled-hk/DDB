@@ -25,7 +25,8 @@ class StoreRequestRequest extends FormRequest
                 Rule::unique('branch_A.requests', 'student_id')->where('status', 'pending'),
                 Rule::unique('branch_B.requests', 'student_id')->where('status', 'pending'),
             ],
-            'to_branch_id' => ['required', 'exists:branches,id'],
+            'to_branch_id' => ['required', 'exists:branch_A.branches,id',
+            'exists:branch_B.branches,id'],
         ];
     }
 }

@@ -19,7 +19,7 @@ class RequestController extends Controller
             return response()->json([
                                 "success"=>false,
 
-                'message' => 'can not an admin make request to its branch',
+                'message' => 'admin can not an make request to his branch',
             ], 401);
         }
 

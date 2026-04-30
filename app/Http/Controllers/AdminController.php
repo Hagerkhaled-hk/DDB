@@ -10,18 +10,21 @@ use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller
 {
-    public function login(LoginAdminRequest $request): JsonResponse
-    {
-        $admin = Admin::on($request->validated("branch"))->where('email', $request->validated('email'))->first();
+  public function login(LoginAdminRequest $request): JsonResponse
+{
+    $admin = Admin::on('branch_A')
+        ->where('email', $request->validated('email'))
+        ->first();
 
-        if (! $admin || ! Hash::check($request->validated('password'), $admin->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
-        }
-
-        return response()->json([
-            'token' => $admin->createToken('auth', ['admin'])->plainTextToken,
+    if (!$admin || !Hash::check($request->validated('password'), $admin->password)) {
+        throw ValidationException::withMessages([
+            'email' => ['The provided credentials are incorrect.'],
         ]);
     }
+
+
+    return response()->json([
+        'token' => $admin->createToken('auth', ['admin'])->plainTextToken,
+    ]);
+}
 }

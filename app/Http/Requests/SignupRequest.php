@@ -18,9 +18,9 @@ class SignupRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:admins,email'],
+            'email' => ['required', 'email', 'unique:branch_A.admins,email','unique:branch_B.admins,email'],
             'password' => ['required', 'string', 'min:6'],
-            'branch_id' => ['required', 'exists:branches,id'],
+            'branch_id' => ['required', 'exists:branch_A.branches,id','exists:branch_B.branches,id'],
         ];
     }
 }

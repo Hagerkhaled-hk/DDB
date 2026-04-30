@@ -12,22 +12,19 @@ class AuthController extends Controller
 {
     public function signup(SignupRequest $request): JsonResponse
     {
-        
-       
-          
+
      $admin =  DB::transaction(function () use ( $request) {
         $admin  = Admin::on("branch_A")->create($request->validated());
           Admin::on("branch_B")->create($request->validated());
 
-
             return $admin ;
         });
+
         return response()->json([
             'message' => 'Admin created successfully',
-            'admin' => $admin->load('branch'),
-            'token' => $admin->createToken('API Token')->plainTextToken,
+            'admin' => $admin->get(["id",'name',"email"])->load('branch'),
         ], 201);
     }
 
- 
+
 }
